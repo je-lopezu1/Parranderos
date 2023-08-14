@@ -14,6 +14,15 @@ import java.util.Collection;
 
 public interface BebidaRepository extends JpaRepository<Bebida, Integer> {
 
+        public interface RespuestaInformacionBebidas {
+
+                int getTOTAL_BEBIDAS();
+                double getPROMEDIO_GRADO();
+                int getMAYOR_GRADO();
+                int getMENOR_GRADO();
+        }
+
+
         @Query(value = "SELECT * FROM bebidas", nativeQuery = true)
         Collection<Bebida> darBebidas();
 
@@ -38,4 +47,18 @@ public interface BebidaRepository extends JpaRepository<Bebida, Integer> {
         void insertarBebida(@Param("nombre") String nombre, @Param("grado_alcohol") Integer grado_alcohol,
                         @Param("tipo") Integer tipo);
 
+        @Query(value = "SELECT DISTINCT B.*\r\n" + //
+        "FROM bebidas B\r\n" + //
+        "INNER JOIN sirven SB ON B.ID = SB.ID_BEBIDA\r\n" + //
+        "INNER JOIN bares BR ON SB.ID_BAR = BR.ID\r\n" + //
+        "WHERE BR.CIUDAD = :ciudad AND B.GRADO_ALCOHOL BETWEEN :mingrado AND :maxgrado", nativeQuery = true)
+        Collection<Bebida> darBebidasPorCiudadYGrado(@Param("ciudad") String ciudad,
+        @Param("mingrado") int minGradoAlcohol, @Param("maxgrado") int maxGradoAlcohol);
+
+        @Query(value = "SELECT COUNT(*) AS TOTAL_BEBIDAS, \r\n" + //
+                        "ROUND(AVG(grado_alcohol),2) AS PROMEDIO_GRADO, \r\n" + //
+                        "MAX(grado_alcohol) AS MAYOR_GRADO, \r\n" + //
+                        "MIN(grado_alcohol) AS MENOR_GRADO \r\n" + //
+                        "FROM bebidas", nativeQuery = true)
+        Collection<RespuestaInformacionBebidas> darInformacionBebidas();
 }

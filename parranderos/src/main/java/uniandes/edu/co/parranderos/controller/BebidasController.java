@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import uniandes.edu.co.parranderos.modelo.Bebida;
 import uniandes.edu.co.parranderos.repositorio.BebidaRepository;
+import uniandes.edu.co.parranderos.repositorio.BebidaRepository.RespuestaInformacionBebidas;
 import uniandes.edu.co.parranderos.repositorio.Tipo_bebidaRepository;
 
 
@@ -26,7 +27,23 @@ public class BebidasController {
 
     @GetMapping("/bebidas")
     public String bebidas(Model model, String ciudad, String minGrado, String maxGrado) {
-        model.addAttribute("bebidas", bebidaRepository.darBebidas());
+
+        Collection<RespuestaInformacionBebidas> informacion = bebidaRepository.darInformacionBebidas();
+        model.addAttribute("totalBebidas", informacion.iterator().next().getTOTAL_BEBIDAS());
+        model.addAttribute("promedioGrado", informacion.iterator().next().getPROMEDIO_GRADO());
+        model.addAttribute("mayorGrado", informacion.iterator().next().getMAYOR_GRADO());
+        model.addAttribute("menorGrado", informacion.iterator().next().getMENOR_GRADO());
+
+        if((ciudad == null || ciudad.equals("")) || (minGrado == null || minGrado.equals("")) || (maxGrado == null || maxGrado.equals("")))
+        {
+            model.addAttribute("bebidas", bebidaRepository.darBebidas());
+        }
+        else
+        {
+            model.addAttribute("bebidas", bebidaRepository.darBebidasPorCiudadYGrado(ciudad, Integer.parseInt(minGrado), Integer.parseInt(maxGrado)));
+        }
+
+
         return "bebidas";
     }
 
