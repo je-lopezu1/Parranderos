@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lista de Bebidas</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+
+</head>
+
+<body>
+    <div class="text-center">
+        <h1>Lista de Bebidas</h1>
+       
+        <table class="table table-condensed table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Grado de Alcohol</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <th:block th:each="bebida : ${bebidas}">
+                <tr>
+                    <td th:text="${bebida.id}">buttononcli</td>
+                    <td th:text="${bebida.nombre}"></td>
+                    <td th:text="${bebida.grado_alcohol}"></td>
+                    <td th:text="${bebida.tipo.nombre}"></td>
+                    <td>
+                        <a th:href="@{'/bebidas/' + ${bebida.id} + '/edit'}">Editar</a>
+                        <a th:href="@{'/bebidas/' + ${bebida.id} + '/delete'}"
+                            onclick="return confirm('¿Estás seguro de borrar esta bebida?')">Borrar</a>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+        <a th:href="@{/}" class="btn btn-primary">Volver Atrás</a>
+    </div>
+    </div>
+    <br/>
+</body>
+
+</html>

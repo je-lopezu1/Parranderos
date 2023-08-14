@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lista de Bebedores</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <div class="text-center">
+        <h1>Lista de Bebedores</h1>
+        
+
+            <table class="table table-condensed table-hover table-bordered" style="border-collapse:collapse;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Ciudad</th>
+                        <th>Presupuesto</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="bebedor : ${bebedores}">
+                        <tr>
+                            <td th:text="${bebedor.id}"></td>
+                            <td th:text="${bebedor.nombre}"></td>
+                            <td th:text="${bebedor.ciudad}"></td>
+                            <td th:text="${bebedor.presupuesto}"></td>
+                            <td>
+                                <a th:href="@{bebedores/{id}/edit(id=${bebedor.id})}">Editar</a>
+                                <a th:href="@{bebedores/{id}/delete(id=${bebedor.id})}"
+                                    onclick="return confirm('¿Estás seguro de borrar este bebedor?')">Borrar</a>
+                            </td>
+                        </tr>
+                        
+                    </th:block>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <a th:href="@{/}" class="btn btn-primary"> Volver Atrás</a>
+                </br>
+            </div>
+            <br />
+</body>
+
+</html>
