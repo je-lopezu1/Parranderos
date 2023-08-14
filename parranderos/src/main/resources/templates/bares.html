@@ -4,13 +4,54 @@
 <head>
     <title>Lista de Bares</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
-
+    <script th:src="@{/css/jquery.min.js}"></script>
+    <script th:src="@{/css/bootstrap.min.js}"></script>
 </head>
 
 <body>
     <div class="text-center">
-    <h1>Lista de Bares</h1>
-    
+        <h1>Lista de Bares</h1>
+        <p>Hay <span th:text="${NumeroDeBaresQueSirvenBebidasConMayorGradoAlcohol}"></span> bares que sirven bebidas con
+            el mayor grado de alcohol.</p>
+        <p>Hay <span th:text="${NumeroDeBaresQueSirvenBebidasConMenorGradoAlcohol}"></span> bares que sirven bebidas con
+            el menor grado de alcohol.</p>
+
+        <div class="container w-25">
+            <div class="card border border-2 mx-auto">
+
+                <h5 class="card-header" role='button' id="headingOne">
+                    <a href="#" class="collapsed d-block" data-toggle="collapse" data-target="#busqueda">
+
+                        Búsqueda avanzada
+                    </a>
+
+                </h5>
+
+                <div id="busqueda" class="collapse">
+                    <form th:action="@{bares}" method="get">
+                        <label class="col-form-label">Ciudad:</label>
+                        <input class="form-control" type="text" id="ciudad" name="ciudad" />
+
+                        <label class="col-form-label" for="tipo">Tipo:</label>
+                        <select class="form-control" id="tipo" name="tipo">
+                            <option value=""></option>
+                            <th:block th:each="tipo : ${tipos}">
+                                <option th:value="${tipo.nombre}" th:text="${tipo.nombre}"></option>
+                            </th:block>
+                        </select><br>
+
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-secondary">Buscar por ciudad y presupuesto</button>
+                        </div>
+
+                        <br />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br />
+
         <table class="table table-hover table-bordered">
             <thead class="thead-dark">
                 <tr>
