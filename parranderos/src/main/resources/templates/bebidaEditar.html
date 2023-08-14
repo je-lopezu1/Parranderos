@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Bebida</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+
+</head>
+<body>
+    <br>
+    <form th:action="@{'/bebidas/' + ${id} + '/edit/save'}" th:object="${bebida}" method="post">
+        <div th:replace="~{fragments/bebidaForm :: bebidaForm(titulo='Editar bebida', bebida=${bebida}, tipos=${tipos})}">
+        </form>
+        </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Bebida</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+
+</head>
+<body>
+    <br>
+    <form action="#" th:action="@{/bebidas/new/save}" method="post">
+        <div th:replace="~{fragments/bebidaForm :: bebidaForm(titulo='Crear bebida', tipos=${tipos})}">
+        </form>
+        </div>
+</body>
+</html>
