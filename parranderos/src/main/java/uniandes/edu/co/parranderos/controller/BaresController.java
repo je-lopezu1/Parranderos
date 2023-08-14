@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import uniandes.edu.co.parranderos.modelo.Bar;
 import uniandes.edu.co.parranderos.repositorio.BarRepository;
@@ -14,8 +13,7 @@ import uniandes.edu.co.parranderos.repositorio.BarRepository;
 import org.springframework.ui.Model;
 
 
-//@Controller
-@RestController
+@Controller
 public class BaresController {
 
     @Autowired
@@ -24,9 +22,7 @@ public class BaresController {
     @GetMapping("/bares")
     public String bares(Model model) {
         model.addAttribute("bares", barRepository.darBares());
-        //return "bares";
-        return model.toString();
-
+        return "bares";
 }
 
     @GetMapping("/bares/new")

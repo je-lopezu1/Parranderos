@@ -10,6 +10,9 @@ public class Gustan {
     @EmbeddedId
     private GustanPK pk;
 
+    public Gustan()
+    {;}
+
     public Gustan(Bebedor id_bebedor, Bebida id_bebida)
     {
         this.pk = new GustanPK(id_bebedor, id_bebida);
