@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lista de Bares</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+
+</head>
+
+<body>
+    <div class="text-center">
+    <h1>Lista de Bares</h1>
+    
+        <table class="table table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Ciudad</th>
+                    <th>Presupuesto</th>
+                    <th>Cantidad de Sedes</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <th:block th:each="bar : ${bares}">
+                <tr>
+                    <td th:text="${bar.id}"></td>
+                    <td th:text="${bar.nombre}"></td>
+                    <td th:text="${bar.ciudad}"></td>
+                    <td th:text="${bar.presupuesto}"></td>
+                    <td th:text="${bar.cant_sedes}"></td>
+                    <td>
+                        <a th:href="@{bares/{id}/edit(id=${bar.id})}">Editar</a>
+                        <a th:href="@{bares/{id}/delete(id=${bar.id})}"
+                            onclick="return confirm('¿Estás seguro de borrar este bar?')">Borrar</a>
+                    </td>
+                </tr>
+            </th:block>
+
+        </table>
+        <div>
+            <a th:href='@{/}' class="btn btn-primary">Volver Atrás</a>
+        </div>
+        <br />
+
+    </div>
+</body>
+
+</html>
