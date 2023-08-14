@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import uniandes.edu.co.parranderos.modelo.Bar;
 import uniandes.edu.co.parranderos.repositorio.BarRepository;
+import uniandes.edu.co.parranderos.repositorio.Tipo_bebidaRepository;
 
 import org.springframework.ui.Model;
 
@@ -19,11 +20,31 @@ public class BaresController {
     @Autowired
     private BarRepository barRepository;
 
+    @Autowired
+    private Tipo_bebidaRepository tipo_bebidaRepository;
+
     @GetMapping("/bares")
-    public String bares(Model model) {
-        model.addAttribute("bares", barRepository.darBares());
+    public String bares(Model model, String ciudad, String tipo) {
+        int NumeroDeBaresQueSirvenBebidasConMayorGradoAlcohol = barRepository
+                .darNumeroDeBaresQueSirvenBebidasConMayorGradoAlcohol();
+        int NumeroDeBaresQueSirvenBebidasConMenorGradoAlcohol = barRepository
+                .darNumeroDeBaresQueSirvenBebidasConMenorGradoAlcohol();
+        model.addAttribute("NumeroDeBaresQueSirvenBebidasConMayorGradoAlcohol",
+                NumeroDeBaresQueSirvenBebidasConMayorGradoAlcohol);
+        model.addAttribute("NumeroDeBaresQueSirvenBebidasConMenorGradoAlcohol",
+                NumeroDeBaresQueSirvenBebidasConMenorGradoAlcohol);
+        model.addAttribute("tipos", tipo_bebidaRepository.darTipos_bebida());
+
+        if((ciudad == null || ciudad.equals("")) || (tipo ==null || tipo.equals("")))
+        {
+            model.addAttribute("bares", barRepository.darBares());
+        }
+        else{
+            model.addAttribute("bares", barRepository.darBaresPorCiudadYTipoBebida(ciudad, tipo));
+        }
+
         return "bares";
-}
+    }
 
     @GetMapping("/bares/new")
     public String barForm(Model model) {

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import uniandes.edu.co.parranderos.modelo.Bebedor;
 import uniandes.edu.co.parranderos.repositorio.BebedorRepository;
+import uniandes.edu.co.parranderos.repositorio.Tipo_bebidaRepository;
 
 @Controller
 public class BebedoresController {
@@ -17,11 +18,32 @@ public class BebedoresController {
     @Autowired
     private BebedorRepository bebedorRepository;
 
+    @Autowired
+    private Tipo_bebidaRepository tipo_bebidaRepository;
+
 
     @GetMapping("/bebedores")
     public String bebedores(Model model, String nombre) {
-        
-        model.addAttribute("bebedores", bebedorRepository.darBebedores());
+        int bebedoresGustanBebidasMayorGrado = bebedorRepository
+                .darNumeroDeBebedoresQueGustanDeBebidasConMayorGradoAlcohol();
+        int bebedoresGustanBebidasMenorGrado = bebedorRepository
+                .darNumeroDeBebedoresQueGustanDeBebidasConMenorGradoAlcohol();
+        model.addAttribute("bebedoresGustanBebidasMayorGrado",
+                bebedoresGustanBebidasMayorGrado);
+        model.addAttribute("bebedoresGustanBebidasMenorGrado",
+                bebedoresGustanBebidasMenorGrado);
+ 
+        model.addAttribute("tipos", tipo_bebidaRepository.darTipos_bebida());
+
+        if(nombre != null && !nombre.equals(""))
+        {
+            model.addAttribute("bebedores", bebedorRepository.darBebedoresPorNombre(nombre));
+        }
+        else{
+            model.addAttribute("bebedores", bebedorRepository.darBebedores());
+        }
+
+
         return "bebedores";
     }
 

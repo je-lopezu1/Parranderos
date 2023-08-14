@@ -39,4 +39,24 @@ public interface BebedorRepository extends JpaRepository<Bebedor, Integer> {
     void insertarBebedor(@Param("nombre") String nombre, @Param("ciudad") String ciudad,
             @Param("presupuesto") String presupuesto);
 
+    
+    @Query(value = "SELECT COUNT(*)\r\n" + //
+            "FROM (SELECT G.id_bebedor\r\n" + //
+            "FROM (SELECT B.id\r\n" + //
+            "FROM bebidas B\r\n" + //
+            "WHERE grado_alcohol = (SELECT MAX(grado_alcohol) AS GRADO_MAX FROM bebidas)) B \r\n" + //
+            "INNER JOIN gustan G ON B.ID = G.id_bebida) IDB\r\n" + //
+            "INNER JOIN bebedores B ON IDB.id_bebedor = B.id\r\n", nativeQuery = true)
+    int darNumeroDeBebedoresQueGustanDeBebidasConMayorGradoAlcohol();
+
+    
+    @Query(value = "SELECT COUNT(*)\r\n" + //
+            "FROM (SELECT G.id_bebedor\r\n" + //
+            "FROM (SELECT B.id\r\n" + //
+            "FROM bebidas B\r\n" + //
+            "WHERE grado_alcohol = (SELECT MIN(grado_alcohol) AS GRADO_MIN FROM bebidas)) B \r\n" + //
+            "INNER JOIN gustan G ON B.ID = G.id_bebida) IDB\r\n" + //
+            "INNER JOIN bebedores B ON IDB.id_bebedor = B.id\r\n", nativeQuery = true)
+    int darNumeroDeBebedoresQueGustanDeBebidasConMenorGradoAlcohol();
+
 }

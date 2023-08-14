@@ -36,4 +36,29 @@ public interface BarRepository extends JpaRepository<Bar, Integer>{
         @Transactional
         @Query(value = "DELETE FROM bares WHERE id = :id", nativeQuery = true)
         void eliminarBar(@Param("id") long id);
+
+
+        @Query(value = "SELECT COUNT(*)\r\n" + //
+        "FROM bares B\r\n" + //
+        "INNER JOIN sirven SB ON B.ID = SB.ID_BAR\r\n" + //
+        "INNER JOIN bebidas BR ON SB.ID_BEBIDA = BR.ID\r\n" + //
+        "WHERE BR.GRADO_ALCOHOL = (SELECT MAX(GRADO_ALCOHOL) FROM bebidas)", nativeQuery = true)
+        int darNumeroDeBaresQueSirvenBebidasConMayorGradoAlcohol();
+
+
+        @Query(value = "SELECT COUNT(*)\r\n" + //
+                "FROM bares B\r\n" + //
+                "INNER JOIN sirven SB ON B.ID = SB.ID_BAR\r\n" + //
+                "INNER JOIN bebidas BR ON SB.ID_BEBIDA = BR.ID\r\n" + //
+                "WHERE BR.GRADO_ALCOHOL = (SELECT MIN(GRADO_ALCOHOL) FROM bebidas)", nativeQuery = true)
+        int darNumeroDeBaresQueSirvenBebidasConMenorGradoAlcohol();
+
+
+        @Query(value = "SELECT B.*\r\n" + //
+        "FROM bares B\r\n" + //
+        "INNER JOIN sirven SB ON B.ID = SB.ID_BAR\r\n" + //
+        "INNER JOIN bebidas BR ON SB.ID_BEBIDA = BR.ID\r\n" + //
+        "INNER JOIN tipos_bebida TB ON BR.tipo = TB.ID\r\n" + //
+        "WHERE B.CIUDAD = :ciudad AND TB.NOMBRE = :tipo", nativeQuery = true)
+        Collection<Bar> darBaresPorCiudadYTipoBebida(@Param("ciudad") String ciudad, @Param("tipo") String tipo);
 }
