@@ -6,26 +6,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="bares")
-public class Bar {
+@Table(name="habitacion")
+public class Habitacion {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     private String nombre;
 
-    private String ciudad;
-
     private String presupuesto;
 
     private Integer cant_sedes;
 
-    public Bar(){;}
+    public Habitacion(){;}
 
-    public Bar(String nombre, String ciudad, String presupuesto, Integer cant_sedes)
+    public Habitacion(String nombre, String presupuesto, Integer cant_sedes)
     {
         this.nombre = nombre;
-        this.ciudad = ciudad;
         this.presupuesto = presupuesto;
         this.cant_sedes = cant_sedes;
     }
@@ -44,14 +41,6 @@ public class Bar {
 
     public void setNombre(String nombre){
         this.nombre = nombre;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad){
-        this.ciudad = ciudad;
     }
 
     public String getPresupuesto() {
@@ -73,7 +62,7 @@ public class Bar {
     @Override
     public String toString()
     {
-        return this.nombre+"|"+this.ciudad+"|"+this.presupuesto+"|"+this.cant_sedes;
+        return this.nombre+"|"+this.presupuesto+"|"+this.cant_sedes;
     }
     
 }
